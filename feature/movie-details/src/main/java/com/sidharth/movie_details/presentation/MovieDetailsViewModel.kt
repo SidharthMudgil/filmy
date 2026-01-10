@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sidharth.model.ResultState
 import com.sidharth.movie_details.domain.usecase.GetMovieDetailsUseCase
+import com.sidharth.navigation.Args
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -29,7 +30,7 @@ internal class MovieDetailsViewModel @Inject constructor(
 
     val state: StateFlow<MovieDetailsUiState> = _refreshTrigger
         .flatMapLatest {
-            getMovieDetailsUseCase(savedStateHandle["movieId"]!!)
+            getMovieDetailsUseCase(savedStateHandle[Args.MOVIE_ID]!!)
         }
         .map { result ->
             when (result) {

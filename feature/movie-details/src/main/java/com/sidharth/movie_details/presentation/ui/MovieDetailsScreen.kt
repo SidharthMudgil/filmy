@@ -30,15 +30,16 @@ import com.sidharth.movie_details.presentation.MovieDetailsViewModel
 import com.sidharth.ui.R
 
 @Composable
-internal fun MovieDetailsScreen(viewModel: MovieDetailsViewModel) {
+internal fun MovieDetailsScreen(
+    viewModel: MovieDetailsViewModel,
+    onBack: () -> Unit
+) {
     val uiState by viewModel.state.collectAsState()
 
     LaunchedEffect(viewModel) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is MovieDetailsEffect.NavigateBack -> {
-
-                }
+                MovieDetailsEffect.NavigateBack -> onBack()
             }
         }
     }

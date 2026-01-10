@@ -1,5 +1,5 @@
 package com.sidharth.movie_details.presentation
 
-sealed interface MovieDetailsEffect {
+internal sealed interface MovieDetailsEffect {
     object NavigateBack : MovieDetailsEffect
 }

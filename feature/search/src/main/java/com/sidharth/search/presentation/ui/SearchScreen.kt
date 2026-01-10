@@ -29,7 +29,8 @@ import com.sidharth.search.presentation.SearchViewModel
 
 @Composable
 internal fun SearchScreen(
-    viewModel: SearchViewModel
+    viewModel: SearchViewModel,
+    onNavigateToDetails: (Int) -> Unit
 ) {
     val uiState by viewModel.state.collectAsState()
 
@@ -37,7 +38,7 @@ internal fun SearchScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is SearchEffect.NavigateToMovieDetails -> {
-                    // navController.navigate(...)
+                    onNavigateToDetails(effect.movieId)
                 }
             }
         }
