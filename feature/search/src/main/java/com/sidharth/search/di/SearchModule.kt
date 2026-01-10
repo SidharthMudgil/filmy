@@ -5,12 +5,13 @@ import com.sidharth.search.data.repository.SearchRepositoryImpl
 import com.sidharth.search.domain.repository.SearchRepository
 import com.sidharth.search.domain.usecase.GetTrendingMoviesUseCase
 import com.sidharth.search.domain.usecase.SearchMovieUseCase
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@Singleton
+@Module
 @InstallIn(SingletonComponent::class)
 internal class SearchModule {
 

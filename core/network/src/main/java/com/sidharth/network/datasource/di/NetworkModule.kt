@@ -13,8 +13,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.sidharth.network.BuildConfig
+import dagger.Module
 
-@Singleton
+@Module
 @InstallIn(SingletonComponent::class)
 internal class NetworkModule {
 

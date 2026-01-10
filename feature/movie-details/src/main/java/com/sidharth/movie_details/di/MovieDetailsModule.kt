@@ -4,12 +4,13 @@ import com.sidharth.movie_details.data.repository.MovieRepositoryImpl
 import com.sidharth.movie_details.domain.repository.MovieRepository
 import com.sidharth.movie_details.domain.usecase.GetMovieDetailsUseCase
 import com.sidharth.network.datasource.RemoteDataSource
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@Singleton
+@Module
 @InstallIn(SingletonComponent::class)
 internal class MovieDetailsModule {
 

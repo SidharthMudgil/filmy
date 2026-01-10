@@ -37,6 +37,8 @@ android {
 dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:network"))
+    implementation(project(":core:ui"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -53,4 +55,6 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.coil.compose)
 }
