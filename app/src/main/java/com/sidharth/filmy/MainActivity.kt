@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             FilmyTheme {
                 val navController = rememberNavController()
-
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
                 ) { paddingValues ->
