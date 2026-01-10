@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import com.sidharth.network.BuildConfig
 
 @Singleton
 @InstallIn(SingletonComponent::class)
@@ -23,7 +24,7 @@ internal class NetworkModule {
         val interceptor = Interceptor { chain ->
             var request = chain.request()
             request = request.newBuilder().url(request.url)
-                 .addHeader("Authorization", "BuildConfig.API_KEY")
+                 .addHeader("Authorization", BuildConfig.API_KEY)
                 .build()
             chain.proceed(request)
         }

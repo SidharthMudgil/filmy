@@ -7,8 +7,9 @@ import com.sidharth.movie_details.domain.repository.MovieRepository
 import com.sidharth.network.datasource.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-internal class MovieRepositoryImpl(
+internal class MovieRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : MovieRepository {
 

@@ -7,8 +7,9 @@ import com.sidharth.network.datasource.response.MovieListResponse
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import javax.inject.Inject
 
-internal class RemoteDataSourceImpl(
+internal class RemoteDataSourceImpl @Inject constructor(
     private val apiService: ApiService
 ) : RemoteDataSource {
     override suspend fun fetchTrendingMovies(timeWindow: String): MovieListResponse = safeCall {
