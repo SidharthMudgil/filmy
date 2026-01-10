@@ -21,3 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "filmy"
 include(":app")
+include(":core:ui")
+include(":core:network")
+include(":core:navigation")
+include(":core:model")
+include(":feature:search")
+include(":feature:movie-details")
