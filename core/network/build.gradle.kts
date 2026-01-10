@@ -1,6 +1,10 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -14,6 +18,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField(
+            "String",
+            "API_KEY",
+            "\"${gradleLocalProperties(rootDir, providers).getProperty("API_KEY")}\""
+        )
     }
 
     buildTypes {
@@ -42,4 +52,7 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }
