@@ -1,4 +1,4 @@
-package com.sidharth.filmy.ui.theme
+package com.sidharth.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
