@@ -1,12 +1,14 @@
 package com.sidharth.search.presentation.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sidharth.model.SearchItem
 import com.sidharth.search.presentation.SearchEffect
@@ -62,45 +65,48 @@ private fun SearchScreen(
     onRefresh: () -> Unit,
     onMovieClicked: (Int) -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    SearchBar(
-                        query = uiState.query,
-                        onQueryChange = onQueryChange
-                    )
-                }
-            )
-        }
-    ) { paddingValues ->
-        PullToRefreshBox(
+    Scaffold { paddingValues ->
+        Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            onRefresh = onRefresh,
-            isRefreshing = uiState.isLoading,
-            contentAlignment = Alignment.Center
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp, vertical = 24.dp)
         ) {
-            when {
-                uiState.error != null -> {
-                    Text(
-                        text = uiState.error,
-                        fontSize = 24.sp,
-                        color = Color.Red,
-                        textAlign = TextAlign.Center
-                    )
-                }
+            SearchBar(
+                query = uiState.query,
+                onQueryChange = onQueryChange,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
 
-                uiState.isLoading -> {
-                    CircularProgressIndicator()
-                }
+            Spacer(Modifier.height(30.dp))
 
-                uiState.movies.isNotEmpty() -> {
-                    SearchContent(
-                        result = uiState.movies,
-                        onMovieClicked = onMovieClicked
-                    )
+            PullToRefreshBox(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                onRefresh = onRefresh,
+                isRefreshing = uiState.isLoading,
+                contentAlignment = Alignment.Center
+            ) {
+                when {
+                    uiState.error != null -> {
+                        Text(
+                            text = uiState.error,
+                            fontSize = 24.sp,
+                            color = Color.Red,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    uiState.isLoading -> {
+                        CircularProgressIndicator()
+                    }
+
+                    uiState.movies.isNotEmpty() -> {
+                        SearchContent(
+                            result = uiState.movies,
+                            onMovieClicked = onMovieClicked
+                        )
+                    }
                 }
             }
         }
@@ -110,16 +116,27 @@ private fun SearchScreen(
 @Preview
 @Composable
 private fun SuccessSearchScreenPreview() {
-    val searchItem = SearchItem(
+    val searchItem1 = SearchItem(
         id = 21,
+        title = "Avatar",
+        posterUrl = "https://www.google.com/#q=posse",
+    )
+
+    val searchItem2 = SearchItem(
+        id = 211,
+        title = "Avatar",
+        posterUrl = "https://www.google.com/#q=posse",
+    )
+
+    val searchItem3 = SearchItem(
+        id = 212,
         title = "Avatar",
         posterUrl = "https://www.google.com/#q=posse",
     )
 
     SearchScreen(
         uiState = SearchUiState(
-            query = "Avatar",
-            movies = listOf(searchItem, searchItem, searchItem)
+            movies = listOf(searchItem1, searchItem2, searchItem3)
         ),
         onMovieClicked = {},
         onRefresh = {},
