@@ -4,7 +4,7 @@ package com.sidharth.network.datasource.response
 import com.google.gson.annotations.SerializedName
 import com.sidharth.network.datasource.response.auxiliary.ResultResponse
 
-data class MovieSearchResponse(
+data class MovieListResponse(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")

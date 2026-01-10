@@ -3,8 +3,7 @@ package com.sidharth.network.datasource.impl
 import com.sidharth.network.datasource.ApiService
 import com.sidharth.network.datasource.RemoteDataSource
 import com.sidharth.network.datasource.response.MovieDetailsResponse
-import com.sidharth.network.datasource.response.MovieSearchResponse
-import com.sidharth.network.datasource.response.TrendingMoviesResponse
+import com.sidharth.network.datasource.response.MovieListResponse
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -12,7 +11,7 @@ import java.io.IOException
 internal class RemoteDataSourceImpl(
     private val apiService: ApiService
 ) : RemoteDataSource {
-    override suspend fun fetchTrendingMovies(timeWindow: String): TrendingMoviesResponse = safeCall {
+    override suspend fun fetchTrendingMovies(timeWindow: String): MovieListResponse = safeCall {
         apiService.fetchTrendingMovies(timeWindow)
     }
 
@@ -20,7 +19,7 @@ internal class RemoteDataSourceImpl(
         apiService.fetchMovieDetails(movieId)
     }
 
-    override suspend fun searchMovie(query: String): MovieSearchResponse = safeCall {
+    override suspend fun searchMovie(query: String): MovieListResponse = safeCall {
         apiService.searchMovie(query)
     }
 }
