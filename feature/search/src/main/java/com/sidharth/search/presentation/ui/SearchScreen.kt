@@ -73,7 +73,7 @@ private fun SearchScreen(
                 .padding(horizontal = 16.dp, vertical = 24.dp)
         ) {
             SearchBar(
-                query = uiState.query,
+                initialQuery = uiState.query,
                 onQueryChange = onQueryChange,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )

@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -32,23 +33,27 @@ internal class SearchViewModel @Inject constructor(
     private val searchMovieUseCase: SearchMovieUseCase,
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
-    private val _refreshTrigger = MutableStateFlow(Unit)
+    private val _refreshTrigger = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
 
     val state: StateFlow<SearchUiState> = combine(
         _query.debounce(300).distinctUntilChanged(),
-        _refreshTrigger
+        _refreshTrigger.onStart { emit(Unit) }
     ) { query, _ -> query }
         .flatMapLatest { query ->
-            if (query.isBlank()) getTrendingMoviesUseCase()
-            else searchMovieUseCase(query)
-        }.map { result ->
-            when (result) {
-                is ResultState.Loading -> SearchUiState(isLoading = true)
-                is ResultState.Success -> SearchUiState(movies = result.data)
-                is ResultState.Error -> SearchUiState(error = result.message)
-                ResultState.Empty -> SearchUiState(isLoading = false)
+            val flow = if (query.isBlank()) {
+                getTrendingMoviesUseCase()
+            } else {
+                searchMovieUseCase(query)
             }
-
+            flow.map { result -> query to result }
+        }
+        .map { (query, result) ->
+            when (result) {
+                is ResultState.Loading -> SearchUiState(isLoading = true, query = query)
+                is ResultState.Success -> SearchUiState(movies = result.data, query = query)
+                is ResultState.Error -> SearchUiState(error = result.message, query = query)
+                ResultState.Empty -> SearchUiState(isLoading = false, query = query)
+            }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -61,7 +66,7 @@ internal class SearchViewModel @Inject constructor(
     fun onIntent(intent: SearchIntent) {
         when (intent) {
             is SearchIntent.UpdateQuery -> _query.update { intent.query }
-            SearchIntent.Refresh -> _query.value = _query.value
+            SearchIntent.Refresh -> _refreshTrigger.tryEmit(Unit)
             is SearchIntent.OpenMovieDetails -> viewModelScope.launch {
                 _effect.emit(SearchEffect.NavigateToMovieDetails(intent.movieId))
             }

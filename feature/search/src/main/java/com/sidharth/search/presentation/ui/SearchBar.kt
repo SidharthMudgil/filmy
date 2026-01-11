@@ -1,5 +1,6 @@
 package com.sidharth.search.presentation.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,10 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,10 +30,12 @@ import com.sidharth.ui.R
 
 @Composable
 internal fun SearchBar(
-    query: String,
+    initialQuery: String,
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var text by rememberSaveable { mutableStateOf(initialQuery) }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -54,16 +61,20 @@ internal fun SearchBar(
         Spacer(modifier = Modifier.width(8.dp))
 
         BasicTextField(
-            value = query,
-            onValueChange = onQueryChange,
-            singleLine = true,
+            value = text,
+            onValueChange = {
+                Log.d("SearchBar", "onValueChange = '$it'")
+                text = it
+                onQueryChange(it)
+            },
+                    singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             textStyle = TextStyle(
                 fontSize = 16.sp,
                 color = Color.Black
             ),
             decorationBox = { innerTextField ->
-                if (query.isEmpty()) {
+                if (text.isEmpty()) {
                     Text(
                         text = "Search movies",
                         color = Color(0xFF9CA3AF),
@@ -79,5 +90,5 @@ internal fun SearchBar(
 @Preview
 @Composable
 private fun SearchBarPreview() {
-    SearchBar(query = "", onQueryChange = {})
+    SearchBar(initialQuery = "", onQueryChange = {})
 }
