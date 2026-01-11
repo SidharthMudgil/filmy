@@ -1,7 +1,13 @@
 package com.sidharth.movie_details.presentation.ui
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -84,30 +90,38 @@ private fun MovieDetailsScreen(
                 .fillMaxSize()
                 .padding(paddingValues),
             onRefresh = onRefresh,
-            isRefreshing = uiState.isLoading && uiState.movie != null,
+            isRefreshing = uiState.isLoading && (uiState.movie != null || uiState.error != null),
             contentAlignment = Alignment.Center,
         ) {
-            when {
-                uiState.error != null -> {
-                    Text(
-                        text = uiState.error,
-                        fontSize = 24.sp,
-                        color = Color.Red,
-                        textAlign = TextAlign.Center
-                    )
-                }
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp)
+            ) {
+                when {
+                    uiState.error != null -> {
+                        Text(
+                            text = uiState.error,
+                            fontSize = 24.sp,
+                            color = Color.Red,
+                            textAlign = TextAlign.Center
+                        )
+                    }
 
-                uiState.movie != null -> {
-                    MovieDetailsContent(
-                        movie = uiState.movie,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp)
-                    )
-                }
+                    uiState.movie != null -> {
+                        MovieDetailsContent(
+                            movie = uiState.movie,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
 
-                uiState.isLoading -> {
-                    CircularProgressIndicator()
+                    uiState.isLoading -> {
+                        Spacer(Modifier.height(30.dp))
+                        CircularProgressIndicator()
+                    }
                 }
             }
         }

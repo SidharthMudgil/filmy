@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,9 +27,9 @@ internal class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val _refreshTrigger = MutableStateFlow(Unit)
+    private val _refreshTrigger = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
 
-    val state: StateFlow<MovieDetailsUiState> = _refreshTrigger
+    val state: StateFlow<MovieDetailsUiState> = _refreshTrigger.onStart { emit(Unit) }
         .flatMapLatest {
             getMovieDetailsUseCase(savedStateHandle[Args.MOVIE_ID]!!)
         }
@@ -50,7 +51,7 @@ internal class MovieDetailsViewModel @Inject constructor(
 
     fun onIntent(intent: MovieDetailsIntent) {
         when (intent) {
-            MovieDetailsIntent.Refresh -> _refreshTrigger.value = Unit
+            MovieDetailsIntent.Refresh -> _refreshTrigger.tryEmit(Unit)
             MovieDetailsIntent.BackClicked -> viewModelScope.launch {
                 _effect.emit(MovieDetailsEffect.NavigateBack)
             }

@@ -1,10 +1,15 @@
 package com.sidharth.search.presentation.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -70,36 +75,45 @@ private fun SearchScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(horizontal = 16.dp, vertical = 24.dp)
+                .padding(horizontal = 18.dp, vertical = 24.dp)
         ) {
             SearchBar(
                 initialQuery = uiState.query,
                 onQueryChange = onQueryChange,
-                modifier = Modifier.padding(horizontal = 16.dp)
             )
 
             Spacer(Modifier.height(30.dp))
 
             PullToRefreshBox(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
+                modifier = Modifier.fillMaxSize(),
                 onRefresh = onRefresh,
-                isRefreshing = uiState.isLoading && uiState.movies.isNotEmpty(),
-                contentAlignment = Alignment.Center
+                isRefreshing = uiState.isLoading && (uiState.movies.isNotEmpty() ||uiState.error != null),
+                contentAlignment = Alignment.TopCenter
             ) {
                 when {
                     uiState.error != null -> {
-                        Text(
-                            text = uiState.error,
-                            fontSize = 24.sp,
-                            color = Color.Red,
-                            textAlign = TextAlign.Center
-                        )
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            Text(
+                                text = uiState.error,
+                                fontSize = 24.sp,
+                                color = Color.Red,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
 
                     uiState.isLoading -> {
-                        CircularProgressIndicator()
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            CircularProgressIndicator()
+                        }
                     }
 
                     uiState.movies.isNotEmpty() -> {
