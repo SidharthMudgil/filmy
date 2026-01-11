@@ -13,9 +13,9 @@
 12. [Tech Stack](#tech-stack) 
 
 ## Screenshots
-| ![Screenshot 1](assets/img1.png) | ![Screenshot 2](assets/img2.png) | ![Screenshot 3](assets/img3.png) |
-| --- | --- | --- |
-| ![Screenshot 4](assets/img4.png) | ![Screenshot 5](assets/img5.png) | ![Screenshot 6](assets/img6.png) |
+| ![Screenshot 1](assets/img1.png) | ![Screenshot 2](assets/img2.png) |
+| --- | --- |
+| ![Screenshot 3](assets/img3.png) | ![Screenshot 4](assets/img4.png) |
 
 ---
 
@@ -25,7 +25,11 @@
 ---
 
 ## Demo Recording
-https://github.com/user-attachments/assets/68e20275-b44e-40a4-82b6-25cb657cdc98
+
+
+https://github.com/user-attachments/assets/22fcfce8-86ff-424e-a976-d12e23231dac
+
+
 
 [Download recording](assets/recording.mp4)
 
