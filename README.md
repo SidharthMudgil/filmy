@@ -10,7 +10,8 @@
 | --- | --- | --- | --- |
 
 ### Demo Recording
-https://github.com/user-attachments/assets/22fcfce8-86ff-424e-a976-d12e23231dac
+https://github.com/user-attachments/assets/db8bd383-7edf-4293-9401-1c0c0bac9255
+
 
 [Download Apk](assets/app-debug.apk)
 [Download Recording](assets/recording.mp4)
