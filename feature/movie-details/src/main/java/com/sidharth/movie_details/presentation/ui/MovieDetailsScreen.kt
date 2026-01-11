@@ -101,6 +101,7 @@ private fun MovieDetailsScreen(
                 }
                 when {
                     uiState.error != null -> {
+                        Spacer(Modifier.height(60.dp))
                         Text(
                             text = uiState.error,
                             fontSize = 24.sp,
@@ -117,7 +118,7 @@ private fun MovieDetailsScreen(
                     }
 
                     uiState.isLoading -> {
-                        Spacer(Modifier.height(30.dp))
+                        Spacer(Modifier.height(60.dp))
                         CircularProgressIndicator()
                     }
                 }
