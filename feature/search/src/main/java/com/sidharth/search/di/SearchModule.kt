@@ -1,5 +1,6 @@
 package com.sidharth.search.di
 
+import com.sidharth.local.LocalDataSource
 import com.sidharth.network.datasource.RemoteDataSource
 import com.sidharth.search.data.repository.SearchRepositoryImpl
 import com.sidharth.search.domain.repository.SearchRepository
@@ -17,8 +18,14 @@ internal class SearchModule {
 
     @Singleton
     @Provides
-    fun provideSearchRepository(remoteDataSource: RemoteDataSource): SearchRepository {
-        return SearchRepositoryImpl(remoteDataSource)
+    fun provideSearchRepository(
+        remoteDataSource: RemoteDataSource,
+        localDataSource: LocalDataSource
+    ): SearchRepository {
+        return SearchRepositoryImpl(
+            remoteDataSource,
+            localDataSource
+        )
     }
 
     @Singleton

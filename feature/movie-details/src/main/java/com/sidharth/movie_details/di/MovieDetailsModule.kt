@@ -1,5 +1,6 @@
 package com.sidharth.movie_details.di
 
+import com.sidharth.local.LocalDataSource
 import com.sidharth.movie_details.data.repository.MovieRepositoryImpl
 import com.sidharth.movie_details.domain.repository.MovieRepository
 import com.sidharth.movie_details.domain.usecase.GetMovieDetailsUseCase
@@ -16,8 +17,14 @@ internal class MovieDetailsModule {
 
     @Provides
     @Singleton
-    fun provideMovieRepository(remoteDataSource: RemoteDataSource): MovieRepository {
-        return MovieRepositoryImpl(remoteDataSource)
+    fun provideMovieRepository(
+        remoteDataSource: RemoteDataSource,
+        localDataSource: LocalDataSource
+    ): MovieRepository {
+        return MovieRepositoryImpl(
+            remoteDataSource,
+            localDataSource
+        )
     }
 
     @Provides
