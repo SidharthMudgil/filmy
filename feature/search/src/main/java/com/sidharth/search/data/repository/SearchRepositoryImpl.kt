@@ -11,24 +11,38 @@ import javax.inject.Inject
 
 internal class SearchRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
-): SearchRepository {
+) : SearchRepository {
+    private val searchCache = mutableMapOf<String, List<SearchItem>>()
+    private val trendingCache = mutableListOf<SearchItem>()
+
     override suspend fun searchMovie(query: String): Flow<ResultState<List<SearchItem>>> = flow {
         emit(ResultState.Loading)
+        val cachedResult = searchCache[query]
         try {
+            cachedResult?.let { emit(ResultState.Success(it)) }
             val response = remoteDataSource.searchMovie(query)
             emit(ResultState.Success(response.toDomain()))
         } catch (e: Exception) {
-            emit(ResultState.Error(e.message ?: "Something went wrong"))
+            cachedResult?.let {
+                emit(ResultState.Success(it))
+            } ?: run {
+                emit(ResultState.Error(e.message ?: "Something went wrong"))
+            }
         }
     }
 
     override suspend fun getTrendingMovies(): Flow<ResultState<List<SearchItem>>> = flow {
         emit(ResultState.Loading)
         try {
+            emit(ResultState.Success(trendingCache))
             val response = remoteDataSource.fetchTrendingMovies()
             emit(ResultState.Success(response.toDomain()))
         } catch (e: Exception) {
-            emit(ResultState.Error(e.message ?: "Something went wrong"))
+            if (trendingCache.isNotEmpty()) {
+                emit(ResultState.Success(trendingCache))
+            } else {
+                emit(ResultState.Error(e.message ?: "Something went wrong"))
+            }
         }
     }
 }

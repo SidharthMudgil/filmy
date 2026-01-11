@@ -12,14 +12,22 @@ import javax.inject.Inject
 internal class MovieRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : MovieRepository {
+    private val cache = mutableMapOf<Int, Movie>()
 
     override suspend fun getMovieDetails(movieId: Int): Flow<ResultState<Movie>> = flow {
         emit(ResultState.Loading)
+
+        val cachedMovie = cache[movieId]
         try {
+            cachedMovie?.let { emit(ResultState.Success(it)) }
             val response = remoteDataSource.fetchMovieDetails(movieId)
             emit(ResultState.Success(response.toDomain()))
         } catch (e: Exception) {
-            emit(ResultState.Error(e.message ?: "Something went wrong"))
+            cachedMovie?.let {
+                emit(ResultState.Success(it))
+            } ?: run {
+                emit(ResultState.Error(e.message ?: "Something went wrong"))
+            }
         }
     }
 }
