@@ -83,12 +83,11 @@ private fun MovieDetailsScreen(
                 }
             )
         }
-    ) { paddingValues ->
+    ) { _ ->
         PullToRefreshBox(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxSize()
-                .padding(paddingValues),
+                .fillMaxSize(),
             onRefresh = onRefresh,
             isRefreshing = uiState.isLoading && (uiState.movie != null || uiState.error != null),
             contentAlignment = Alignment.Center,

@@ -1,6 +1,5 @@
 package com.sidharth.search.presentation.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -71,10 +70,9 @@ private fun SearchScreen(
     onRefresh: () -> Unit,
     onMovieClicked: (Int) -> Unit
 ) {
-    Scaffold { paddingValues ->
+    Scaffold { _ ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
                 .padding(horizontal = 18.dp, vertical = 24.dp)
         ) {
             SearchBar(
