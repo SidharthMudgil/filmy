@@ -1,9 +1,13 @@
 package com.sidharth.movie_details.presentation.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -69,21 +73,7 @@ private fun MovieDetailsScreen(
     onBackClicked: () -> Unit,
     onRefresh: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = onBackClicked) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_back),
-                            contentDescription = "Back"
-                        )
-                    }
-                }
-            )
-        }
-    ) { _ ->
+    Scaffold { _ ->
         PullToRefreshBox(
             modifier = Modifier
                 .padding(16.dp)
@@ -98,8 +88,17 @@ private fun MovieDetailsScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(16.dp)
             ) {
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_back),
+                        contentDescription = "Back",
+                        modifier = Modifier.clickable { onBackClicked() }
+                    )
+                }
                 when {
                     uiState.error != null -> {
                         Text(
