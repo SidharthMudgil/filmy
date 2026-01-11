@@ -7,8 +7,6 @@
 6. [Module Dependency Graph](#module-dependency-graph)  
 7. [App Navigation Flow](#app-navigation-flow)  
 8. [Feature Data Flows](#feature-data-flows)  
-    - [Trending/Search Movies](#trending-search-movies)  
-    - [Movie Details](#movie-details)  
 9. [ViewModel State Management](#viewmodel-state-management)  
 10. [Network Layer](#network-layer)  
 11. [Dependency Injection](#dependency-injection)  
@@ -22,16 +20,13 @@
 ---
 
 ## APK
-
-- [Download app-debug.apk](assets/app-debug.apk)
+[Download filmy apk](assets/app-debug.apk)
 
 ---
 
 ## Demo Recording
-<video width="640" height="360" controls>
-  <source src="assets/recording.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+https://github.com/user-attachments/assets/68e20275-b44e-40a4-82b6-25cb657cdc98
+[Download recording](assets/recording.mp4)
 
 ## Module Overview
 
