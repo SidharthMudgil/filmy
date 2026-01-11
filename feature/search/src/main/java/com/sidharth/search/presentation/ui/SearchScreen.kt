@@ -85,7 +85,7 @@ private fun SearchScreen(
                     .fillMaxSize()
                     .padding(paddingValues),
                 onRefresh = onRefresh,
-                isRefreshing = uiState.isLoading,
+                isRefreshing = uiState.isLoading && uiState.movies.isNotEmpty(),
                 contentAlignment = Alignment.Center
             ) {
                 when {

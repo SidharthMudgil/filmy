@@ -84,7 +84,7 @@ private fun MovieDetailsScreen(
                 .fillMaxSize()
                 .padding(paddingValues),
             onRefresh = onRefresh,
-            isRefreshing = uiState.isLoading,
+            isRefreshing = uiState.isLoading && uiState.movie != null,
             contentAlignment = Alignment.Center,
         ) {
             when {
